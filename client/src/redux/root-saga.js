@@ -1,11 +1,10 @@
 import { all, call } from 'redux-saga/effects';
 
-// import contactsSagas from './contacts/contacts.sagas';
-// import userSagas from './user/user.sagas';
+import currentUserSagas from './current-user/current-user.sagas';
 
 export default function* rootSaga() {
   yield all([
     // call(contactsSagas),
-    // call(userSagas)
+    call(currentUserSagas)
   ]);
 }

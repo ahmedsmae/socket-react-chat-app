@@ -166,15 +166,14 @@ router.delete('/me', auth, async (req, res) => {
   }
 });
 
-// @route    POST api/users/avatar/me
+// @route    POST api/users/avatar/:userId
 // @desc     Add/Edit profile avatar
-// @access   Private
+// @access   Public
 router.post(
-  '/avatar/me',
-  auth,
+  '/avatar/:userId',
   upload.single('avatar'),
   async (req, res) => {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.params.userId);
 
     const buffer = await sharp(req.file.buffer)
       .resize({ width: 150, height: 150 })

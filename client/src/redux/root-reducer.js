@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-// import userReducer from './user/user.reducer';
+import currentUserReducer from './current-user/current-user.reducer';
 // import contactsReducer from './contacts/contacts.reducer';
 // import messageReducer from './message/message.reducer';
 
 const rootReducer = combineReducers({
-  // user: userReducer,
+  user: currentUserReducer
   // contacts: contactsReducer,
   // message: messageReducer
 });

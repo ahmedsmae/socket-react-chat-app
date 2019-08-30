@@ -3,13 +3,17 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
+import { signOutUserStart } from '../../redux/current-user/current-user.actions';
+
+import { selectCurrentUser } from '../../redux/current-user/current-user.selectors';
+
 import UserImage from '../user-image/user-image.component';
 
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 
 import './header.styles.scss';
 
-const Header = ({ currentUser, signoutUserStart }) => (
+const Header = ({ currentUser, signOutUserStart }) => (
   <div className='header'>
     <Link className='logo-container' to='/'>
       <Logo />
@@ -21,19 +25,23 @@ const Header = ({ currentUser, signoutUserStart }) => (
       </Link>
       {currentUser ? (
         <Fragment>
-          <Link className='option' to='/' onClick={() => signoutUserStart()}>
+          <Link className='option' to='/' onClick={() => signOutUserStart()}>
             SIGN OUT
           </Link>
-          <UserImage src={currentUser.avatar} />
+          <UserImage src={currentUser.avatar} icon />
         </Fragment>
       ) : null}
     </div>
   </div>
 );
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  signOutUserStart: () => dispatch(signOutUserStart())
+});
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
+});
 
 export default connect(
   mapStateToProps,

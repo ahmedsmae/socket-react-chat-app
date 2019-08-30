@@ -4,7 +4,7 @@ import React from 'react';
 import './message-card.styles.scss';
 
 const MessageCard = ({ message, currentUser }) => {
-  const myMessage = currentUser._id == message.ownerid;
+  const myMessage = currentUser._id === message.ownerid;
 
   return (
     <div

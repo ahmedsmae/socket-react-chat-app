@@ -1,30 +1,33 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import './sign-in.styles.scss';
+import { signInUserStart } from '../../redux/current-user/current-user.actions';
 
 import FormInput from '../../components/form-input/form-input.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 
-const SignIn = ({ signinUserStart }) => {
+import './sign-in.styles.scss';
+
+const SignIn = ({ signInUserStart }) => {
   const [userCredentials, setCredentials] = useState({
     email: '',
     password: ''
   });
 
-  const handleSubmit = async event => {
+  const handleChange = event => {
+    const { name, value } = event.target;
+    setCredentials({ ...userCredentials, [name]: value });
+  };
+
+  const handleSubmit = event => {
     event.preventDefault();
 
     const { email, password } = userCredentials;
 
-    signinUserStart({ email, password });
+    signInUserStart({ email, password });
 
     setCredentials({ email: '', password: '' });
-  };
-
-  const handleChange = event => {
-    const { name, value } = event.target;
-    setCredentials({ ...userCredentials, [name]: value });
   };
 
   const { email, password } = userCredentials;
@@ -53,11 +56,14 @@ const SignIn = ({ signinUserStart }) => {
 
         <CustomButton type='submit'>Sign in</CustomButton>
       </form>
+      <Link to='/register'>Don't have an account !</Link>
     </div>
   );
 };
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  signInUserStart: userCredentials => dispatch(signInUserStart(userCredentials))
+});
 
 export default connect(
   null,

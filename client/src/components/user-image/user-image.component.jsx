@@ -1,13 +1,17 @@
 import React from 'react';
 
-import { ReactComponent as NoUser } from '../../assets/user.png';
+import DefaultUser from '../../assets/user.png';
 
 import './user-image.styles.scss';
 
-const UserImage = ({ src }) => {
+const UserImage = ({ src, icon, ...otherProps }) => {
   return (
-    <div className='image-container'>
-      <img className='user-image' src={!src ? NoUser : src} alt='User image' />
+    <div className='image-container' {...otherProps}>
+      <img
+        className={`user-image ${icon && 'icon'}`}
+        src={src ? src : DefaultUser}
+        alt='User'
+      />
     </div>
   );
 };
