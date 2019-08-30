@@ -1,0 +1,21 @@
+.message-form-container {
+  .message-form {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+
+    input {
+      height: 100%;
+      background-color: grey;
+      color: black;
+      padding: 5px;
+      margin: 10px 5px;
+    }
+
+    button {
+      height: 100%;
+      background-color: green;
+      border-radius: 50%;
+      border: 1px solid black;
+    }
+  }
+}
