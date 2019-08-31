@@ -20,9 +20,10 @@ const SignUp = ({ signUpUserStart }) => {
 
   const [photo, setPhoto] = useState({
     photoFileName: '',
-    photoObject: null,
-    photoPreview: null
+    photoObject: null
   });
+
+  const [photoPreview, setPhotoPreview] = useState(null);
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -33,14 +34,15 @@ const SignUp = ({ signUpUserStart }) => {
     event.preventDefault();
 
     const { name, email, password, confirmPassword } = userCredentials;
-    const { photoFileName, photoObject } = photo;
 
     if (password !== confirmPassword) {
       alert("Passwords don't match");
       return;
     }
 
-    if (!photoFileName || !photoObject) {
+    const { photoFileName, photoObject } = photo;
+
+    if (!photoFileName.length || !photoObject) {
       alert('Please add photo');
       return;
     }
@@ -50,20 +52,18 @@ const SignUp = ({ signUpUserStart }) => {
     setCredentials({ name: '', email: '', password: '', confirmPassword: '' });
   };
 
-  const setImagePreview = event => {
+  const setImagePreview = files => {
     // this func is to set the selected photo on the <UserImage /> for preview after user select
 
-    const { files } = event.target;
-
     if (files && files[0]) {
-      var file = event.target.files[0];
+      const file = files[0];
 
-      var reader = new FileReader();
+      const reader = new FileReader();
 
       reader.onload = (function(theFile) {
         return function(e) {
           // set the result on the state to rerender the component
-          setPhoto({ ...photo, photoPreview: e.target.result });
+          setPhotoPreview(e.target.result);
         };
       })(file);
 
@@ -83,17 +83,18 @@ const SignUp = ({ signUpUserStart }) => {
         style={{ display: 'none' }}
         type='file'
         name='file'
-        onChange={event => {
-          setImagePreview(event);
+        onChange={({ target: { files } }) => {
           setPhoto({
-            photoObject: event.target.files[0],
-            photoFileName: event.target.files[0].name
+            ...photo,
+            photoObject: files[0],
+            photoFileName: files[0].name
           });
+          setImagePreview(files);
         }}
         ref={fileInput => (filePick = fileInput)}
       />
 
-      <UserImage src={photo.photoPreview} onClick={() => filePick.click()} />
+      <UserImage src={photoPreview} onClick={() => filePick.click()} />
 
       <form className='sign-up-form' onSubmit={handleSubmit}>
         <FormInput
