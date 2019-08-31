@@ -9,13 +9,15 @@ const MessageCard = ({ message, currentUser }) => {
   const myMessage = currentUser._id === message.ownerid;
 
   return (
-    <div
-      className={`message-card ${myMessage ? 'my-message' : 'other-message'}`}
-    >
-      <Moment className='message-date' format='h:mm a'>
-        {moment.utc(message.createdAt)}
-      </Moment>
-      <span className='message-content'>{message.content}</span>
+    <div className={`${myMessage ? 'mine' : 'yours'} messages`}>
+      <div className='message last'>
+        <div className='content'>
+          <div className='message-date'>
+            <Moment format='h:mm a'>{moment.utc(message.createdAt)}</Moment>
+          </div>
+          <span className='message-content'>{message.content}</span>
+        </div>
+      </div>
     </div>
   );
 };
