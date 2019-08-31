@@ -1,14 +1,20 @@
 .sign-up {
-  width: 380px;
+  margin: 40px 20px;
   display: flex;
   flex-direction: column;
 
-  @media screen and (max-width: 800px) {
-    width: 100%;
-    padding-top: 50px;
+  .title {
+    font-size: 1.5rem;
+    margin: 10px auto;
+    text-align: center;
   }
 
-  .title {
-    margin: 10px 0;
+  .sign-in {
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 12px;
+    color: blue;
+    text-align: center;
+    cursor: pointer;
   }
 }

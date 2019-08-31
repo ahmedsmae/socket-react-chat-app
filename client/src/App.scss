@@ -1,9 +1,18 @@
 body {
-  font-family: 'Roboto Condensed', sans-serif;
-  padding: 20px 40px;
+  font-family: 'Lato', sans-serif;
+  // background-color: grey;
 
-  @media screen and (max-width: 800px) {
-    padding: 10px;
+  .app {
+    max-width: 550px;
+    height: 100%;
+    background-color: white;
+    margin: 0 auto;
+    padding: 20px;
+    // border: 1px solid black;
+
+    @media screen and (max-width: 500px) {
+      width: 100%;
+    }
   }
 }
 

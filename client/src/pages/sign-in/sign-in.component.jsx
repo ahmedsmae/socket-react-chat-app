@@ -56,7 +56,9 @@ const SignIn = ({ signInUserStart }) => {
 
         <CustomButton type='submit'>Sign in</CustomButton>
       </form>
-      <Link to='/register'>Don't have an account !</Link>
+      <Link to='/register' className='register'>
+        Don't have an account !
+      </Link>
     </div>
   );
 };

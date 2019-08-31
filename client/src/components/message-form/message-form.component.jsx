@@ -17,17 +17,25 @@ const MessageForm = ({ currentUser }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    const msg = { ownerid: currentUser._id, content: message };
+    const date = new Date();
+    const msg = {
+      ownerid: currentUser._id,
+      content: message,
+      // there is a date difference
+      createdAt: date.setHours(date.getHours() + 4)
+    };
     sendMessage(msg);
     setMessage('');
   };
 
   return (
     <div className='message-form-container'>
-      <form onSubmit={handleSubmit} className='message-form'>
+      <form onSubmit={handleSubmit}>
         <input
+          placeholder='Type a message...'
           type='text'
           name='message'
+          autoComplete='off'
           value={message}
           onChange={handleChange}
         />

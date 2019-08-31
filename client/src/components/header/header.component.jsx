@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -23,14 +23,12 @@ const Header = ({ currentUser, signOutUserStart }) => (
       <Link className='option' to='/about'>
         ABOUT
       </Link>
-      {currentUser ? (
-        <Fragment>
-          <Link className='option' to='/' onClick={() => signOutUserStart()}>
-            SIGN OUT
-          </Link>
-          <UserImage src={currentUser.avatar} icon />
-        </Fragment>
-      ) : null}
+      {currentUser && (
+        <Link className='option' to='/' onClick={() => signOutUserStart()}>
+          SIGN OUT
+        </Link>
+      )}
+      {currentUser && <UserImage src={currentUser.avatar} avatar />}
     </div>
   </div>
 );

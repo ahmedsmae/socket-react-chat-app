@@ -1,4 +1,6 @@
 import React from 'react';
+import Moment from 'react-moment';
+import moment from 'moment';
 // import moment
 
 import './message-card.styles.scss';
@@ -10,8 +12,10 @@ const MessageCard = ({ message, currentUser }) => {
     <div
       className={`message-card ${myMessage ? 'my-message' : 'other-message'}`}
     >
-      <p>{message.content}</p>
-      <span>{message.createdAt}</span>
+      <Moment className='message-date' format='h:mm a'>
+        {moment.utc(message.createdAt)}
+      </Moment>
+      <span className='message-content'>{message.content}</span>
     </div>
   );
 };

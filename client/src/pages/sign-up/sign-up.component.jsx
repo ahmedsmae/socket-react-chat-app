@@ -18,7 +18,11 @@ const SignUp = ({ signUpUserStart }) => {
     confirmPassword: ''
   });
 
-  const [photo, setPhoto] = useState({ photoFileName: '', photoObject: null });
+  const [photo, setPhoto] = useState({
+    photoFileName: '',
+    photoObject: null,
+    photoPreview: null
+  });
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -46,6 +50,27 @@ const SignUp = ({ signUpUserStart }) => {
     setCredentials({ name: '', email: '', password: '', confirmPassword: '' });
   };
 
+  const setImagePreview = event => {
+    // this func is to set the selected photo on the <UserImage /> for preview after user select
+
+    const { files } = event.target;
+
+    if (files && files[0]) {
+      var file = event.target.files[0];
+
+      var reader = new FileReader();
+
+      reader.onload = (function(theFile) {
+        return function(e) {
+          // set the result on the state to rerender the component
+          setPhoto({ ...photo, photoPreview: e.target.result });
+        };
+      })(file);
+
+      reader.readAsDataURL(file);
+    }
+  };
+
   const { name, email, password, confirmPassword } = userCredentials;
 
   let filePick;
@@ -59,6 +84,7 @@ const SignUp = ({ signUpUserStart }) => {
         type='file'
         name='file'
         onChange={event => {
+          setImagePreview(event);
           setPhoto({
             photoObject: event.target.files[0],
             photoFileName: event.target.files[0].name
@@ -67,7 +93,7 @@ const SignUp = ({ signUpUserStart }) => {
         ref={fileInput => (filePick = fileInput)}
       />
 
-      <UserImage src={photo.photoFileName} onClick={() => filePick.click()} />
+      <UserImage src={photo.photoPreview} onClick={() => filePick.click()} />
 
       <form className='sign-up-form' onSubmit={handleSubmit}>
         <FormInput
@@ -105,7 +131,9 @@ const SignUp = ({ signUpUserStart }) => {
 
         <CustomButton type='submit'>Sign up</CustomButton>
       </form>
-      <Link to='/'>Already have an account !</Link>
+      <Link to='/' className='sign-in'>
+        Already have an account !
+      </Link>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -10,8 +10,11 @@ import { selectCurrentChatId } from '../../redux/current-chat/current-chat.selec
 
 import UserCard from '../../components/user-card/user-card.component';
 import ChatSocket from '../../components/chat-socket/chat-socket.component';
+import WithSpinner from '../../components/with-spinner/with-spinner.component';
 
 import './chat.styles.scss';
+
+const ChatSocketWithSpinner = WithSpinner(ChatSocket);
 
 const Chat = ({
   currentUser,
@@ -24,12 +27,16 @@ const Chat = ({
   }, [loadingCurrentChatStart, selectedUser._id]);
 
   return (
-    <div className='chat-page'>
-      <UserCard user={selectedUser} />
-      {currentChatId && (
-        <ChatSocket currentChatId={currentChatId} currentUser={currentUser} />
-      )}
-    </div>
+    <Fragment className='chat-page'>
+      <div className='user-card-container'>
+        <UserCard user={selectedUser} />
+      </div>
+      <ChatSocketWithSpinner
+        isLoading={currentChatId.length ? false : true}
+        currentChatId={currentChatId}
+        currentUser={currentUser}
+      />
+    </Fragment>
   );
 };
 
