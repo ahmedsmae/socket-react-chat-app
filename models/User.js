@@ -2,44 +2,41 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      trim: true
-    },
-    email: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true,
-      unique: true
-    },
-    password: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: 7
-    },
-    avatar: {
-      type: Buffer
-    },
-    joindate: {
-      type: Date,
-      default: Date.now
-    },
-    tokens: [
-      {
-        token: {
-          type: String,
-          required: true
-        }
-      }
-    ]
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true
   },
-  { timestamps: true }
-);
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 7
+  },
+  avatar: {
+    type: Buffer
+  },
+  joindate: {
+    type: Date,
+    default: Date.now
+  },
+  tokens: [
+    {
+      token: {
+        type: String,
+        required: true
+      }
+    }
+  ]
+});
 
 // this method to return only the data we need to send back to the frontend
 userSchema.methods.toJSON = function() {

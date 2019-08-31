@@ -1,22 +1,27 @@
 const SocketEvents = require('../client/src/utils/socket-events');
-const { generateMessage } = require('../utils/generate-messages');
+const Chat = require('../models/Chat');
 
 module.exports = io =>
   io.on('connection', socket => {
-    console.log('New WebSocket connection | id = ', socket.id);
-    // will be sent to that specific connection
-    socket.emit(SocketEvents.MESSAGE, generateMessage('Welcome!'));
-    // will be sent to every connection exept that specific connection
-    socket.broadcast.emit(
-      SocketEvents.MESSAGE,
-      generateMessage('A new user has joined ;)')
-    );
+    // console.log('New WebSocket connection | id = ', socket.id);
 
-    socket.on(SocketEvents.FIRST_CONNECTION, ({ user }) => {
-      console.log(user);
+    let chat;
+
+    socket.on(SocketEvents.FIRST_CONNECTION, async chatId => {
+      chat = await Chat.findOne({ _id: chatId });
+
+      socket.emit(SocketEvents.RECIEVE_MESSAGES, chat.messages);
     });
 
-    require('./send-message')(io, socket);
-    require('./send-location')(io, socket);
-    require('./disconnect')(io, socket);
+    socket.on(SocketEvents.SEND_MESSAGE, async message => {
+      chat.messages.push(message);
+
+      await chat.save();
+
+      chat = await Chat.findOne({ _id: chat._id });
+
+      io.emit(SocketEvents.RECIEVE_MESSAGES, chat.messages);
+    });
+
+    // require('./disconnect')(io, socket);
   });

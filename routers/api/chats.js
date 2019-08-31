@@ -28,7 +28,7 @@ router.get('/open/:otherUserId', auth, async (req, res) => {
       await chat.save();
     }
 
-    res.json({ chat });
+    res.json(chat._id);
   } catch (err) {
     console.error(err.message);
     res.status(400).send({ msg: err.message });
